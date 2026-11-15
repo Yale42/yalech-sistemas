@@ -1,0 +1,103 @@
+/* Papelería La Pluma · azul tinta. La estructura está en ../base.css. */
+:root {
+  --brand: #3b5bdb;
+  --brand-dark: #2f4ac2;
+  --brand-soft: #e7ecff;
+}
+.h2 { font-size: 1.05rem; margin-bottom: 12px; }
+.nav button { position: relative; }
+.nav-dot { position: absolute; top: 4px; right: calc(50% - 22px); display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--bad); color: #fff; font-size: 0.65rem; font-weight: 700; }
+@media (min-width: 900px) { .nav-dot { position: static; margin-left: auto; } }
+
+/* ---------- Vender ---------- */
+.pos { display: grid; gap: 20px; }
+.products { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+.product { position: relative; display: grid; align-content: space-between; gap: 10px; min-height: 104px; padding: 13px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); text-align: left; transition: border-color 0.15s ease, scale 0.12s ease, box-shadow 0.15s ease; }
+.product:hover { border-color: var(--brand); box-shadow: 0 6px 16px -10px rgba(59, 91, 219, 0.6); }
+.product:active { scale: 0.97; }
+.product strong { font-size: 0.92rem; line-height: 1.25; }
+.product-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+.product-meta b { font-size: 1.05rem; }
+.product-meta small { font-size: 0.72rem; color: var(--muted); }
+.product-meta small.is-pocos { color: var(--warn); font-weight: 700; }
+.product.is-out { opacity: 0.5; cursor: not-allowed; }
+.product.is-out small { color: var(--bad); font-weight: 700; }
+.product-qty { position: absolute; top: -7px; right: -7px; display: grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 99px; background: var(--brand); color: #fff; font-size: 0.8rem; font-weight: 700; box-shadow: 0 0 0 3px var(--bg); }
+
+.ticket { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.ticket-head { display: flex; align-items: center; gap: 8px; padding: 14px 14px 10px; border-bottom: 1px solid var(--line); }
+.ticket-head h2 { flex: 1; font-size: 1.05rem; }
+.lines { flex: 1; overflow-y: auto; list-style: none; padding: 4px 14px; }
+.line { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name name" "qty total"; gap: 6px 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.line > div:first-child { grid-area: name; }
+.line strong { display: block; font-size: 0.9rem; line-height: 1.25; }
+.line small { color: var(--muted); font-size: 0.78rem; }
+.qty { grid-area: qty; display: flex; align-items: center; gap: 8px; }
+.qty .icon-btn { width: 30px; height: 30px; font-size: 0.75rem; }
+.qty b { min-width: 20px; text-align: center; }
+.line-total { grid-area: total; }
+.ticket-foot { padding: 14px; border-top: 1px solid var(--line); }
+.ticket-total { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.ticket-total strong { font-size: 1.7rem; letter-spacing: -0.02em; }
+.ticket-close { display: none; }
+
+/* Celular: el ticket sube desde abajo */
+@media (max-width: 899px) {
+  .ticket { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; max-height: 78svh; border-radius: 20px 20px 0 0; translate: 0 105%; transition: translate 0.3s var(--ease); }
+  .ticket-close { display: grid; }
+  .ticket-open .ticket { translate: 0 0; }
+  .ticket-backdrop { position: fixed; inset: 0; z-index: 45; background: rgba(22, 24, 29, 0.5); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .ticket-open .ticket-backdrop { opacity: 1; pointer-events: auto; }
+  .ticket-bar { position: fixed; left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 35; display: flex; align-items: center; gap: 12px; padding: 10px 16px 10px 10px; border: 0; border-radius: 14px; background: var(--brand); color: #fff; font-weight: 700; box-shadow: 0 12px 24px -10px rgba(59, 91, 219, 0.7); }
+  .ticket-bar span:first-child { display: grid; place-items: center; min-width: 32px; height: 32px; border-radius: 9px; background: rgba(255, 255, 255, 0.2); }
+  .ticket-bar span:nth-child(2) { flex: 1; text-align: left; }
+}
+@media (min-width: 900px) {
+  .pos { grid-template-columns: 1fr 340px; align-items: start; }
+  .ticket { position: sticky; top: 84px; max-height: calc(100svh - 110px); }
+  .ticket-bar, .ticket-backdrop { display: none !important; }
+}
+
+/* ---------- Cobrar ---------- */
+.pay-total { margin-top: 6px; font-size: 2.6rem; font-weight: 800; letter-spacing: -0.03em; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.seg label { position: relative; cursor: pointer; }
+.seg input { position: absolute; inset: 0; opacity: 0; }
+.seg span { display: grid; justify-items: center; gap: 4px; padding: 10px 4px; border: 1px solid var(--line); border-radius: 12px; font-size: 0.8rem; font-weight: 600; text-align: center; }
+.seg span i { font-size: 1.05rem; }
+.seg input:checked + span { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-dark); }
+.seg input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.change { margin-top: 12px; font-size: 1.05rem; }
+.change strong { font-size: 1.3rem; color: var(--ok); }
+.danger { color: var(--bad); }
+
+/* ---------- Inventario ---------- */
+.inv { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "name actions" "stock stock"; gap: 10px 12px; align-items: center; padding: 12px 14px; }
+.inv-name { grid-area: name; min-width: 0; }
+.inv-name strong { display: block; line-height: 1.25; }
+.inv-name small { color: var(--muted); font-size: 0.8rem; }
+.inv-stock { grid-area: stock; display: flex; align-items: center; gap: 10px; }
+.inv-stock b { min-width: 34px; font-size: 1.1rem; }
+.meter { flex: 1; max-width: 220px; height: 6px; border-radius: 6px; background: var(--bg); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: inherit; background: var(--ok); }
+.meter.is-pocos i { background: #f59f00; }
+.meter.is-agotado i { background: var(--bad); }
+.inv-actions { grid-area: actions; display: flex; gap: 6px; }
+@media (min-width: 700px) {
+  .inv { grid-template-columns: 1.4fr 1fr auto; grid-template-areas: "name stock actions"; }
+}
+
+/* ---------- Corte ---------- */
+.corte { display: grid; gap: 14px; }
+@media (min-width: 900px) { .corte { grid-template-columns: 1fr 1.5fr; align-items: start; } }
+.ranking { display: grid; gap: 10px; list-style: none; }
+.ranking li { position: relative; display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 10px; overflow: hidden; isolation: isolate; font-size: 0.9rem; }
+.ranking li i { position: absolute; inset: 0 auto 0 0; z-index: -1; background: var(--brand-soft); border-radius: inherit; }
+.sales { display: grid; list-style: none; }
+.sales li { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "time items total" "time badge total"; gap: 2px 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.sales li.empty { display: block; border: 0; }
+.sales time { grid-area: time; font-size: 0.82rem; color: var(--muted); }
+.sale-items { grid-area: items; font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sales .badge { grid-area: badge; justify-self: start; }
+.sales b { grid-area: total; }

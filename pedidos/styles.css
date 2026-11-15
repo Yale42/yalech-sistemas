@@ -1,0 +1,55 @@
+/* Pastelería Dulce Hogar · rosa frambuesa. La estructura está en ../base.css. */
+:root {
+  --brand: #d6336c;
+  --brand-dark: #b8255a;
+  --brand-soft: #fde7ef;
+}
+.nav .nav-new { color: var(--brand-dark); }
+.nav .nav-new i { display: grid; place-items: center; width: 30px; height: 30px; margin: -4px auto 0; border-radius: 10px; background: var(--brand); color: #fff; font-size: 0.95rem; }
+@media (min-width: 900px) {
+  .nav .nav-new { margin-top: 10px; background: var(--brand); color: #fff; }
+  .nav .nav-new i { width: 20px; height: auto; margin: 0; background: none; }
+}
+.only-desk { display: none; }
+@media (min-width: 900px) { .only-desk { display: inline-flex; } }
+.chips { margin-bottom: 14px; }
+
+/* ---------- Pedidos ---------- */
+.orders { display: grid; gap: 10px; list-style: none; }
+@media (min-width: 760px) { .orders { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); } }
+.order { display: grid; gap: 8px; padding: 14px; }
+.order.is-done { opacity: 0.7; }
+.order-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.folio { font-weight: 800; color: var(--muted); font-size: 0.85rem; margin-right: 2px; }
+.when { margin-left: auto; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.when.is-urgent { color: var(--brand-dark); }
+.order h3 { font-size: 1.05rem; line-height: 1.25; }
+.detail { font-size: 0.86rem; color: var(--muted); }
+.client { font-size: 0.88rem; }
+.client i { color: var(--muted); margin-right: 4px; }
+.money { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px; border-radius: 12px; background: var(--bg); }
+.money small { display: block; font-size: 0.72rem; color: var(--muted); }
+.money b { font-size: 0.98rem; }
+.money .owes b { color: var(--bad); }
+.money .paid b { color: var(--ok); }
+.order-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.order-actions .btn { flex: 1 1 auto; }
+
+/* ---------- Cobro ---------- */
+.due { margin-top: 10px; font-size: 1rem; }
+.due strong { font-size: 1.6rem; color: var(--bad); }
+.quick { display: flex; gap: 6px; margin-top: 10px; }
+
+/* ---------- Entregas ---------- */
+.days { display: grid; gap: 10px; }
+@media (min-width: 900px) { .days { grid-template-columns: repeat(2, 1fr); align-items: start; } }
+.day { padding: 14px; }
+.day header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.day h2 { font-size: 1rem; }
+.day h2::first-letter { text-transform: uppercase; }
+.day.is-late { border-color: var(--bad); background: var(--bad-soft); }
+.day ul { display: grid; margin-top: 8px; list-style: none; }
+.day li { display: grid; grid-template-columns: 74px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); }
+.day time { font-size: 0.85rem; font-weight: 700; color: var(--brand-dark); }
+.day li strong { display: block; font-size: 0.9rem; line-height: 1.25; }
+.day li small { color: var(--muted); font-size: 0.78rem; }

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Citas y clientes · Estética Lumi</title>
+  <meta name="description" content="Ejemplo funcional de un sistema de citas para una estética: agenda por día, clientes con historial y recordatorios por WhatsApp." />
+  <meta name="theme-color" content="#f4f5f7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Citas y clientes · Sistema de ejemplo" />
+  <meta property="og:description" content="Agenda por día sin choques de horario, ficha de cada cliente y recordatorios por WhatsApp." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../base.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <!-- Sistema de ejemplo (estética ficticia). Funciona en el navegador con datos de prueba;
+       citas y clientes se guardan solo en el navegador de quien lo usa (ver ../comun.js). -->
+  <div class="demo-bar">
+    <span><strong>Ejemplo funcional</strong> · Pruébalo: lo que hagas se guarda solo en este navegador</span>
+    <button type="button" data-reiniciar>Reiniciar demo</button>
+    <a href="../../">Sistema de yalech →</a>
+  </div>
+
+  <div class="app">
+    <nav class="nav" aria-label="Secciones">
+      <div class="nav-brand"><span class="logo"><i class="fa-solid fa-spa"></i></span><div><strong>Lumi</strong><small>Estética</small></div></div>
+      <button type="button" data-ir="agenda"><i class="fa-regular fa-calendar-days"></i><span>Agenda</span></button>
+      <button type="button" data-ir="clientes"><i class="fa-regular fa-address-book"></i><span>Clientes</span></button>
+      <button type="button" class="nav-new" data-nueva-cita><i class="fa-solid fa-plus"></i><span>Nueva cita</span></button>
+    </nav>
+
+    <div>
+      <header class="top">
+        <span class="logo"><i class="fa-solid fa-spa"></i></span>
+        <div class="top-title"><strong>Estética Lumi</strong><span data-hoy></span></div>
+      </header>
+
+      <main class="main">
+        <!-- ========== Agenda ========== -->
+        <section data-vista="agenda">
+          <div class="head">
+            <div><h1>Agenda</h1><p>Toca un horario libre para agendar.</p></div>
+          </div>
+          <div class="stats">
+            <div class="stat stat--brand"><small>Citas hoy</small><strong data-st="hoy">0</strong></div>
+            <div class="stat"><small>Ingreso estimado hoy</small><strong data-st="ingreso">$0</strong></div>
+            <div class="stat"><small>Por confirmar</small><strong data-st="confirmar">0</strong></div>
+            <div class="stat"><small>Clientes</small><strong data-st="clientes">0</strong></div>
+          </div>
+          <div class="chips days" data-dias></div>
+          <h2 class="day-title" data-dia-titulo></h2>
+          <ol class="slots" data-slots></ol>
+        </section>
+
+        <!-- ========== Clientes ========== -->
+        <section data-vista="clientes" hidden>
+          <div class="head">
+            <div><h1>Clientes</h1><p>Historial, notas y cuánto ha gastado cada quien.</p></div>
+            <button type="button" class="btn btn--brand" data-nuevo-cliente><i class="fa-solid fa-user-plus"></i> Agregar cliente</button>
+          </div>
+          <div class="toolbar"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar por nombre o teléfono" aria-label="Buscar cliente" data-buscar /></label></div>
+          <ul class="clients" data-clientes></ul>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== Nueva cita ========== -->
+  <dialog class="modal" id="cita" aria-labelledby="cita-t">
+    <form data-form-cita novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="cita-t">Nueva cita</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <label class="field"><span>Cliente</span><select name="cliente" data-sel-cliente></select></label>
+      <div class="row2" data-cliente-nuevo hidden>
+        <label class="field"><span>Nombre</span><input name="nombre" maxlength="50" autocomplete="off" /></label>
+        <label class="field"><span>WhatsApp</span><input name="tel" inputmode="tel" maxlength="15" placeholder="10 dígitos" /></label>
+      </div>
+      <label class="field"><span>Servicio</span><select name="servicio" data-sel-servicio></select></label>
+      <div class="row2">
+        <label class="field"><span>Día</span><input name="fecha" type="date" /></label>
+        <label class="field"><span>Hora</span><select name="hora" data-sel-hora></select></label>
+      </div>
+      <p class="muted small" data-cita-resumen></p>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-check"></i> Agendar</button></div>
+    </form>
+  </dialog>
+
+  <!-- ========== Ficha del cliente ========== -->
+  <dialog class="modal" id="ficha" aria-labelledby="ficha-t">
+    <div class="modal-in" tabindex="-1" autofocus>
+      <div class="modal-head">
+        <div class="ficha-who"><span class="avatar" data-ficha-ini></span><div><h2 id="ficha-t" data-ficha-nombre></h2><p class="muted small" data-ficha-tel></p></div></div>
+        <button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="ficha-stats">
+        <span><small>Visitas</small><b data-ficha-visitas>0</b></span>
+        <span><small>Ha gastado</small><b class="num" data-ficha-gasto>$0</b></span>
+        <span><small>Última visita</small><b data-ficha-ultima>—</b></span>
+      </div>
+      <label class="field"><span>Notas</span><textarea maxlength="300" data-ficha-notas placeholder="Ej. alergia al amoniaco, prefiere a Karla"></textarea></label>
+      <h3 class="ficha-h">Próximas citas</h3>
+      <ul class="hist" data-ficha-proximas></ul>
+      <h3 class="ficha-h">Historial</h3>
+      <ul class="hist" data-ficha-historial></ul>
+      <div class="modal-actions">
+        <a class="btn btn--wa" data-ficha-wa target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <button type="button" class="btn btn--brand" data-ficha-agendar><i class="fa-solid fa-plus"></i> Agendar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ========== Agregar cliente ========== -->
+  <dialog class="modal" id="cliente" aria-labelledby="cli-t">
+    <form data-form-cliente novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="cli-t">Agregar cliente</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <label class="field"><span>Nombre</span><input name="nombre" maxlength="50" autocomplete="off" /></label>
+      <label class="field"><span>WhatsApp</span><input name="tel" inputmode="tel" maxlength="15" placeholder="10 dígitos" /></label>
+      <label class="field"><span>Notas <small class="muted">(opcional)</small></span><textarea name="notas" maxlength="300"></textarea></label>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand">Guardar</button></div>
+    </form>
+  </dialog>
+
+  <script src="../comun.js?v=1"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>

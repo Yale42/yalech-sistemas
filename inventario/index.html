@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Inventario y ventas · Papelería La Pluma</title>
+  <meta name="description" content="Ejemplo funcional de un sistema de inventario y ventas para una papelería: vender, existencias y corte del día." />
+  <meta name="theme-color" content="#f4f5f7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Inventario y ventas · Sistema de ejemplo" />
+  <meta property="og:description" content="Vende, controla existencias y saca el corte del día desde el celular o la computadora." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../base.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <!-- Sistema de ejemplo (papelería ficticia). Funciona en el navegador con datos de prueba;
+       productos y ventas se guardan solo en el navegador de quien lo usa (ver ../comun.js). -->
+  <div class="demo-bar">
+    <span><strong>Ejemplo funcional</strong> · Pruébalo: lo que hagas se guarda solo en este navegador</span>
+    <button type="button" data-reiniciar>Reiniciar demo</button>
+    <a href="../../">Sistema de yalech →</a>
+  </div>
+
+  <div class="app">
+    <nav class="nav" aria-label="Secciones">
+      <div class="nav-brand"><span class="logo"><i class="fa-solid fa-pen-nib"></i></span><div><strong>La Pluma</strong><small>Papelería</small></div></div>
+      <button type="button" data-ir="vender"><i class="fa-solid fa-cash-register"></i><span>Vender</span></button>
+      <button type="button" data-ir="inventario"><i class="fa-solid fa-boxes-stacked"></i><span>Inventario</span><b class="nav-dot" data-alertas hidden></b></button>
+      <button type="button" data-ir="corte"><i class="fa-solid fa-chart-simple"></i><span>Corte del día</span></button>
+    </nav>
+
+    <div>
+      <header class="top">
+        <span class="logo"><i class="fa-solid fa-pen-nib"></i></span>
+        <div class="top-title"><strong>Papelería La Pluma</strong><span data-hoy></span></div>
+        <span class="badge badge--brand num" data-hoy-total>Hoy $0</span>
+      </header>
+
+      <main class="main">
+        <!-- ========== Vender ========== -->
+        <section data-vista="vender">
+          <div class="pos">
+            <div>
+              <div class="head"><div><h1>Vender</h1><p>Toca un producto para agregarlo al ticket.</p></div></div>
+              <div class="toolbar">
+                <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar producto" aria-label="Buscar producto" data-buscar-venta /></label>
+              </div>
+              <div class="chips" data-cats-venta></div>
+              <div class="products" data-productos></div>
+            </div>
+
+            <aside class="ticket" data-ticket aria-label="Ticket">
+              <div class="ticket-head"><h2>Ticket</h2><button type="button" class="btn btn--sm btn--ghost" data-vaciar>Vaciar</button><button type="button" class="icon-btn ticket-close" data-cerrar-ticket aria-label="Cerrar ticket"><i class="fa-solid fa-chevron-down"></i></button></div>
+              <ul class="lines" data-lineas></ul>
+              <div class="ticket-foot">
+                <div class="ticket-total"><span>Total</span><strong class="num" data-total>$0</strong></div>
+                <button type="button" class="btn btn--brand btn--block" data-cobrar disabled><i class="fa-solid fa-money-bill-wave"></i> Cobrar</button>
+              </div>
+            </aside>
+          </div>
+          <div class="ticket-backdrop" data-cerrar-ticket></div>
+          <button type="button" class="ticket-bar" data-abrir-ticket hidden><span class="num" data-items>0</span><span>Ver ticket</span><strong class="num" data-total-bar>$0</strong></button>
+        </section>
+
+        <!-- ========== Inventario ========== -->
+        <section data-vista="inventario" hidden>
+          <div class="head">
+            <div><h1>Inventario</h1><p>Existencias, avisos de lo que se acaba y entradas de mercancía.</p></div>
+            <button type="button" class="btn btn--brand" data-nuevo><i class="fa-solid fa-plus"></i> Agregar producto</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><small>Productos</small><strong data-st="productos">0</strong></div>
+            <div class="stat"><small>Piezas en tienda</small><strong data-st="piezas">0</strong></div>
+            <div class="stat"><small>Por agotarse</small><strong data-st="pocos">0</strong></div>
+            <div class="stat"><small>Valor del inventario</small><strong data-st="valor">$0</strong></div>
+          </div>
+          <div class="toolbar">
+            <label class="search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar en inventario" aria-label="Buscar en inventario" data-buscar-inv /></label>
+            <div class="chips" data-filtro-inv>
+              <button type="button" class="chip is-on" data-f="todos">Todos</button>
+              <button type="button" class="chip" data-f="pocos">Por agotarse</button>
+              <button type="button" class="chip" data-f="agotados">Agotados</button>
+            </div>
+          </div>
+          <ul class="list" data-inventario></ul>
+        </section>
+
+        <!-- ========== Corte del día ========== -->
+        <section data-vista="corte" hidden>
+          <div class="head">
+            <div><h1>Corte del día</h1><p data-corte-fecha></p></div>
+            <button type="button" class="btn btn--wa" data-enviar-corte><i class="fa-brands fa-whatsapp"></i> Enviar corte</button>
+          </div>
+          <div class="stats">
+            <div class="stat stat--brand"><small>Total vendido</small><strong data-c="total">$0</strong></div>
+            <div class="stat"><small>Ventas</small><strong data-c="ventas">0</strong></div>
+            <div class="stat"><small>Efectivo en caja</small><strong data-c="efectivo">$0</strong></div>
+            <div class="stat"><small>Tarjeta y transferencia</small><strong data-c="otros">$0</strong></div>
+          </div>
+          <div class="corte">
+            <div class="card pad">
+              <h2 class="h2">Más vendidos hoy</h2>
+              <ol class="ranking" data-top></ol>
+            </div>
+            <div class="card pad">
+              <h2 class="h2">Ventas de hoy</h2>
+              <ul class="sales" data-ventas></ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== Cobrar ========== -->
+  <dialog class="modal" id="cobrar" aria-labelledby="cobrar-t">
+    <form data-form-cobro novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="cobrar-t">Cobrar</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <p class="pay-total num" data-cobro-total>$0</p>
+      <fieldset class="field">
+        <legend>¿Cómo paga?</legend>
+        <div class="seg">
+          <label><input type="radio" name="metodo" value="efectivo" checked /><span><i class="fa-solid fa-money-bill"></i> Efectivo</span></label>
+          <label><input type="radio" name="metodo" value="tarjeta" /><span><i class="fa-regular fa-credit-card"></i> Tarjeta</span></label>
+          <label><input type="radio" name="metodo" value="transferencia" /><span><i class="fa-solid fa-building-columns"></i> Transfer.</span></label>
+        </div>
+      </fieldset>
+      <div data-efectivo>
+        <label class="field"><span>Recibido</span><input name="recibido" type="number" inputmode="decimal" min="0" step="0.5" /></label>
+        <div class="quick" data-rapidos></div>
+        <p class="change">Cambio: <strong class="num" data-cambio>$0</strong></p>
+      </div>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-check"></i> Registrar venta</button></div>
+    </form>
+  </dialog>
+
+  <!-- ========== Producto (agregar / editar) ========== -->
+  <dialog class="modal" id="producto" aria-labelledby="prod-t">
+    <form data-form-producto novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="prod-t">Agregar producto</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <label class="field"><span>Nombre</span><input name="nombre" maxlength="60" required /></label>
+      <label class="field"><span>Categoría</span><select name="categoria" data-cat-select></select></label>
+      <div class="row2">
+        <label class="field"><span>Precio</span><input name="precio" type="number" inputmode="decimal" min="0" step="0.5" required /></label>
+        <label class="field"><span>Existencias</span><input name="stock" type="number" inputmode="numeric" min="0" step="1" /></label>
+      </div>
+      <label class="field"><span>Avisarme cuando queden</span><input name="minimo" type="number" inputmode="numeric" min="0" step="1" /></label>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost danger" data-borrar hidden><i class="fa-regular fa-trash-can"></i> Borrar</button>
+        <button type="submit" class="btn btn--brand">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ========== Entrada de mercancía ========== -->
+  <dialog class="modal" id="entrada" aria-labelledby="ent-t">
+    <form data-form-entrada novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><div><h2 id="ent-t">Entrada de mercancía</h2><p class="muted small" data-entrada-nombre></p></div><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <label class="field"><span>¿Cuántas piezas llegaron?</span><input name="cantidad" type="number" inputmode="numeric" min="1" step="1" /></label>
+      <p class="muted small" data-entrada-actual></p>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-plus"></i> Sumar al inventario</button></div>
+    </form>
+  </dialog>
+
+  <script src="../comun.js?v=1"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>

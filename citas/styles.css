@@ -1,0 +1,62 @@
+/* Estética Lumi · violeta. La estructura está en ../base.css. */
+:root {
+  --brand: #7c3aed;
+  --brand-dark: #6527d4;
+  --brand-soft: #efe7ff;
+}
+.nav .nav-new { color: var(--brand-dark); }
+.nav .nav-new i { display: grid; place-items: center; width: 30px; height: 30px; margin: -4px auto 0; border-radius: 10px; background: var(--brand); color: #fff; font-size: 0.95rem; }
+@media (min-width: 900px) {
+  .nav .nav-new { margin-top: 10px; background: var(--brand); color: #fff; }
+  .nav .nav-new i { width: 20px; height: auto; margin: 0; background: none; }
+}
+
+/* ---------- Agenda ---------- */
+.days { margin-bottom: 14px; }
+.day-chip { display: grid; justify-items: center; gap: 0; min-width: 64px; padding: 8px 10px; border-radius: 14px; line-height: 1.15; }
+.day-chip small { font-size: 0.72rem; font-weight: 600; opacity: 0.75; text-transform: capitalize; }
+.day-chip b { font-size: 1.25rem; }
+.day-chip span { font-size: 0.66rem; font-weight: 600; opacity: 0.7; }
+.day-chip.is-on { background: var(--brand); border-color: var(--brand); color: #fff; }
+.day-title { margin: 6px 0 10px; font-size: 1rem; }
+.day-title::first-letter { text-transform: uppercase; }
+
+.slots { display: grid; gap: 6px; list-style: none; }
+.slots li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; align-items: start; }
+.slots time { padding-top: 10px; font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+.slots time small { display: block; font-weight: 500; font-size: 0.72rem; }
+.free time { padding-top: 6px; font-weight: 500; }
+.free.is-past { opacity: 0.45; }
+.free-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 6px 12px; border: 1px dashed var(--line); border-radius: 10px; background: none; color: var(--muted); font-size: 0.82rem; font-weight: 600; text-align: left; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease; }
+.free-btn:hover { border-color: var(--brand); border-style: solid; color: var(--brand-dark); background: var(--brand-soft); }
+.free.is-past span { padding-top: 6px; }
+
+.appt-body { min-height: calc(var(--rows, 1) * 34px); padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 12px; background: var(--card); }
+.appt.is-agendada .appt-body { border-left-color: #f59f00; }
+.appt.is-atendida .appt-body { border-left-color: var(--ok); opacity: 0.75; }
+.appt-main { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.appt-name { padding: 0; border: 0; background: none; font-weight: 700; font-size: 0.98rem; text-align: left; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.appt-name:hover { text-decoration-color: var(--brand); color: var(--brand-dark); }
+.appt-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+/* ---------- Clientes ---------- */
+.clients { display: grid; gap: 8px; list-style: none; }
+@media (min-width: 760px) { .clients { grid-template-columns: repeat(2, 1fr); } }
+.client { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; text-align: left; transition: border-color 0.15s ease; }
+.client:hover { border-color: var(--brand); }
+.avatar { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--brand-soft); color: var(--brand-dark); font-weight: 800; font-size: 0.9rem; }
+.client-main { flex: 1; min-width: 0; }
+.client-main strong { display: block; }
+.client-main small { display: block; color: var(--muted); font-size: 0.8rem; }
+.client-main .next { color: var(--brand-dark); font-weight: 600; }
+.client > b { font-size: 0.95rem; }
+
+/* ---------- Ficha ---------- */
+.ficha-who { display: flex; align-items: center; gap: 12px; }
+.ficha-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; padding: 12px; border-radius: 12px; background: var(--bg); }
+.ficha-stats small { display: block; font-size: 0.72rem; color: var(--muted); }
+.ficha-stats b { font-size: 1rem; }
+.ficha-h { margin-top: 18px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.hist { display: grid; margin-top: 6px; list-style: none; }
+.hist li { display: grid; grid-template-columns: 1.2fr 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+.hist li.muted { display: block; border: 0; }
