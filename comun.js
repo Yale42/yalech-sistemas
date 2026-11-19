@@ -7,7 +7,7 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
 // Todo lo que escribe el usuario pasa por esc() antes de mostrarse como HTML
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const pesos = n => '$' + (Math.round(Number(n) * 100) / 100).toLocaleString('es-MX', { maximumFractionDigits: 2 });
+const pesos = n => { const r = Math.round(Number(n) * 100) / 100; return '$' + r.toLocaleString('es-MX', { minimumFractionDigits: r % 1 ? 2 : 0, maximumFractionDigits: 2 }); };
 const num = (v, min = 0, max = 1e7) => { const n = Number(v); return Number.isFinite(n) ? Math.min(Math.max(n, min), max) : min; };
 const texto = (v, max = 80) => String(v ?? '').trim().slice(0, max);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);

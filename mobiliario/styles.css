@@ -1,0 +1,91 @@
+/* Fiestas Lupita · turquesa fiesta. La estructura está en ../base.css. */
+:root {
+  --brand: #0891b2;
+  --brand-dark: #0e7490;
+  --brand-soft: #cffafe;
+}
+.nav .nav-new { color: var(--brand-dark); }
+.nav .nav-new i { display: grid; place-items: center; width: 30px; height: 30px; margin: -4px auto 0; border-radius: 10px; background: var(--brand); color: #fff; font-size: 0.95rem; }
+@media (min-width: 900px) {
+  .nav .nav-new { margin-top: 10px; background: var(--brand); color: #fff; }
+  .nav .nav-new i { width: 20px; height: auto; margin: 0; background: none; }
+}
+.only-desk { display: none; }
+@media (min-width: 900px) { .only-desk { display: inline-flex; } }
+.modal--wide { max-width: 620px; }
+
+/* ---------- Tira de días ---------- */
+.strip { display: flex; gap: 6px; margin: 0 -16px 12px; padding: 2px 16px 6px; overflow-x: auto; scrollbar-width: none; }
+.strip::-webkit-scrollbar { display: none; }
+.day-btn { flex: none; display: grid; justify-items: center; gap: 1px; width: 58px; padding: 8px 2px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.day-btn small { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: capitalize; }
+.day-btn b { font-size: 1.25rem; line-height: 1.1; }
+.dots { display: flex; gap: 3px; height: 6px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+.day-btn.is-on { background: var(--brand); border-color: var(--brand); color: #fff; }
+.day-btn.is-on small { color: rgba(255, 255, 255, 0.85); }
+.day-btn.is-on .dots i { background: #fff; }
+@media (min-width: 900px) { .strip { margin: 0 0 14px; padding: 2px 0 6px; } }
+
+/* ---------- Disponible ---------- */
+.avail { padding: 16px; }
+.avail-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 12px; }
+.avail-head h2 { font-size: 1.15rem; }
+.avail-head h2::first-letter { text-transform: uppercase; }
+.bars { display: grid; gap: 4px; margin-bottom: 16px; list-style: none; }
+.bars li { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.bar-name { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.92rem; }
+.bar-name i { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; background: var(--brand-soft); color: var(--brand-dark); font-size: 0.8rem; }
+.bar { grid-column: 1 / -1; grid-row: 2; height: 8px; border-radius: 99px; background: var(--brand-soft); overflow: hidden; }
+.bar span { display: block; height: 100%; border-radius: inherit; background: var(--brand); transition: width 0.4s var(--ease); }
+.bar-num b { font-size: 1.1rem; }
+.bars li.is-low .bar span { background: #f59e0b; }
+.bars li.is-low .bar-num b { color: var(--warn); }
+.bars li.is-out .bar span { background: var(--bad); }
+.bars li.is-out .bar-num b { color: var(--bad); }
+@media (min-width: 760px) {
+  .bars li { grid-template-columns: 240px 1fr 150px; }
+  .bar { grid-column: auto; grid-row: auto; }
+  .bar-num { text-align: right; }
+}
+
+/* ---------- Reservas ---------- */
+.res { display: grid; gap: 6px; padding: 14px; }
+.res.is-done { opacity: 0.65; }
+.res-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.res-when { margin-left: auto; font-size: 0.82rem; font-weight: 600; color: var(--brand-dark); }
+.res h3 { font-size: 1.05rem; }
+.res-items { padding: 8px 10px; border-radius: 10px; background: var(--bg); font-size: 0.86rem; }
+.res-money { display: flex; justify-content: space-between; gap: 10px; font-size: 0.9rem; }
+.owes, .owes b { color: var(--bad); }
+.paid b { color: var(--ok); }
+.res-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.res-actions .btn { flex: 1 1 auto; }
+@media (min-width: 900px) { [data-reservas] { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- Ruta ---------- */
+.route { display: grid; gap: 12px; }
+@media (min-width: 900px) { .route { grid-template-columns: 1fr 1fr; align-items: start; } }
+.route-day { padding: 16px; }
+.route-day h2 { font-size: 1.1rem; }
+.load-t { margin-top: 12px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.load { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; list-style: none; }
+.load li { padding: 5px 10px; border-radius: 99px; background: var(--brand-soft); color: var(--brand-dark); font-size: 0.85rem; font-weight: 600; }
+.stops { display: grid; gap: 10px; margin-top: 14px; list-style: none; counter-reset: s; }
+.stops li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
+.stops li div { display: grid; }
+.stops small { font-size: 0.8rem; }
+.stop { padding: 3px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; }
+.stop--e { background: var(--brand); color: #fff; }
+.stop--r { background: var(--warn-soft); color: var(--warn); }
+
+/* ---------- Nueva reserva ---------- */
+.pick { display: grid; gap: 6px; list-style: none; }
+.pick li { display: grid; grid-template-columns: 1fr 84px; gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; }
+.pick label { display: grid; font-size: 0.92rem; }
+.pick small { font-size: 0.78rem; }
+.pick input { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; font-size: 1rem; text-align: center; }
+.pick li.is-over { border-color: var(--bad); background: var(--bad-soft); }
+.pick li.is-over small { color: var(--bad); font-weight: 700; }
+.quote { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--brand-soft); color: var(--brand-dark); font-weight: 600; }
+.quote strong { font-size: 1.3rem; }

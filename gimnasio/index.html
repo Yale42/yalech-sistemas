@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Socios y membresías · Gym Fuerza</title>
+  <meta name="description" content="Ejemplo funcional de un sistema para gimnasio: entrada de socios, membresías por vencer, renovaciones y caja del día." />
+  <meta name="theme-color" content="#f4f5f7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Socios y membresías para gimnasio · Sistema de ejemplo" />
+  <meta property="og:description" content="Entrada con número de socio, avisos de vencimiento por WhatsApp, renovaciones y caja del día." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../base.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <!-- Sistema de ejemplo (gimnasio ficticio). Funciona en el navegador con datos de prueba;
+       socios y pagos se guardan solo en el navegador de quien lo usa (ver ../comun.js). -->
+  <div class="demo-bar">
+    <span><strong>Ejemplo funcional</strong> · Pruébalo: lo que hagas se guarda solo en este navegador</span>
+    <button type="button" data-reiniciar>Reiniciar demo</button>
+    <a href="../">Sistema de yalech →</a>
+  </div>
+
+  <div class="app">
+    <nav class="nav" aria-label="Secciones">
+      <div class="nav-brand"><span class="logo"><i class="fa-solid fa-dumbbell"></i></span><div><strong>Gym Fuerza</strong><small>Gimnasio</small></div></div>
+      <button type="button" data-ir="entrada"><i class="fa-solid fa-door-open"></i><span>Entrada</span></button>
+      <button type="button" data-ir="socios"><i class="fa-solid fa-users"></i><span>Socios</span></button>
+      <button type="button" data-ir="caja"><i class="fa-solid fa-cash-register"></i><span>Caja</span></button>
+      <button type="button" class="nav-new" data-nuevo><i class="fa-solid fa-user-plus"></i><span>Inscribir</span></button>
+    </nav>
+
+    <div>
+      <header class="top">
+        <span class="logo"><i class="fa-solid fa-dumbbell"></i></span>
+        <div class="top-title"><strong>Gym Fuerza</strong><span data-hoy></span></div>
+      </header>
+
+      <main class="main">
+        <!-- ========== Entrada ========== -->
+        <section data-vista="entrada">
+          <div class="head"><div><h1>Entrada</h1><p>Escribe el número o el nombre del socio.</p></div></div>
+          <form class="checkin card" data-form-entrada novalidate>
+            <label class="checkin-input"><i class="fa-solid fa-id-card"></i><input name="q" maxlength="40" placeholder="Ej. 1024 o Sofía" autocomplete="off" aria-label="Número o nombre del socio" /></label>
+            <button type="submit" class="btn btn--brand"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+          </form>
+          <div data-resultado></div>
+          <div class="today">
+            <div class="today-head"><h2>Entraron hoy</h2><span class="badge badge--brand" data-st="hoy">0</span></div>
+            <ul class="list" data-hoy-lista></ul>
+          </div>
+        </section>
+
+        <!-- ========== Socios ========== -->
+        <section data-vista="socios" hidden>
+          <div class="head">
+            <div><h1>Socios</h1><p>Quién está al corriente y a quién avisarle.</p></div>
+            <button type="button" class="btn btn--brand only-desk" data-nuevo><i class="fa-solid fa-user-plus"></i> Inscribir</button>
+          </div>
+          <div class="stats">
+            <div class="stat stat--brand"><small>Activos</small><strong data-st="activos">0</strong></div>
+            <div class="stat"><small>Vencen en 5 días</small><strong data-st="porvencer">0</strong></div>
+            <div class="stat"><small>Vencidos</small><strong data-st="vencidos">0</strong></div>
+            <div class="stat"><small>Vinieron esta semana</small><strong data-st="semana">0</strong></div>
+          </div>
+          <div class="toolbar"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar socio" aria-label="Buscar socio" data-buscar /></label></div>
+          <div class="chips" data-filtros></div>
+          <ul class="list" data-socios></ul>
+        </section>
+
+        <!-- ========== Caja ========== -->
+        <section data-vista="caja" hidden>
+          <div class="head"><div><h1>Caja</h1><p>Lo que entró hoy y en el mes.</p></div></div>
+          <div class="stats">
+            <div class="stat stat--brand"><small>Hoy</small><strong data-st="cajahoy">$0</strong></div>
+            <div class="stat"><small>Este mes</small><strong data-st="cajames">$0</strong></div>
+            <div class="stat"><small>Pagos hoy</small><strong data-st="pagoshoy">0</strong></div>
+            <div class="stat"><small>Visitas hoy</small><strong data-st="visitas">0</strong></div>
+          </div>
+          <ul class="list" data-pagos></ul>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== Inscribir ========== -->
+  <dialog class="modal" id="nuevo" aria-labelledby="nuevo-t">
+    <form data-form-nuevo novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="nuevo-t">Inscribir socio</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="row2">
+        <label class="field"><span>Nombre</span><input name="nombre" maxlength="50" autocomplete="off" /></label>
+        <label class="field"><span>WhatsApp</span><input name="tel" inputmode="tel" maxlength="15" placeholder="10 dígitos" /></label>
+      </div>
+      <fieldset class="field"><legend>Plan</legend><div class="plans" data-planes="nuevo"></div></fieldset>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-check"></i> Cobrar e inscribir</button></div>
+    </form>
+  </dialog>
+
+  <!-- ========== Renovar ========== -->
+  <dialog class="modal" id="renovar" aria-labelledby="renovar-t">
+    <form data-form-renovar novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><div><h2 id="renovar-t">Renovar</h2><p class="muted small" data-r-info></p></div><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <fieldset class="field"><legend>Plan</legend><div class="plans" data-planes="renovar"></div></fieldset>
+      <p class="new-date" data-r-vence></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-check"></i> Cobrar y renovar</button></div>
+    </form>
+  </dialog>
+
+  <script src="../comun.js?v=2"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>

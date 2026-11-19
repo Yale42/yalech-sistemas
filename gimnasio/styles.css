@@ -1,0 +1,68 @@
+/* Gym Fuerza · verde energía. La estructura está en ../base.css. */
+:root {
+  --brand: #16a34a;
+  --brand-dark: #15803d;
+  --brand-soft: #dcfce7;
+}
+.nav .nav-new { color: var(--brand-dark); }
+.nav .nav-new i { display: grid; place-items: center; width: 30px; height: 30px; margin: -4px auto 0; border-radius: 10px; background: var(--brand); color: #fff; font-size: 0.95rem; }
+@media (min-width: 900px) {
+  .nav .nav-new { margin-top: 10px; background: var(--brand); color: #fff; }
+  .nav .nav-new i { width: 20px; height: auto; margin: 0; background: none; }
+}
+.only-desk { display: none; }
+@media (min-width: 900px) { .only-desk { display: inline-flex; } }
+.chips { margin-bottom: 14px; }
+
+/* ---------- Entrada ---------- */
+.checkin { display: flex; gap: 8px; padding: 8px; }
+.checkin-input { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; padding: 0 12px; border-radius: 10px; background: var(--bg); }
+.checkin-input i { color: var(--muted); }
+.checkin-input input { flex: 1; min-width: 0; padding: 12px 0; border: 0; background: none; outline: none; font-size: 1.15rem; font-weight: 600; }
+.checkin:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+[data-resultado] { display: grid; gap: 10px; margin-top: 12px; }
+[data-resultado] .empty .btn { margin-top: 10px; }
+.member { display: grid; grid-template-columns: auto 1fr; gap: 12px 14px; align-items: center; padding: 16px; border-width: 2px; animation: pop 0.35s var(--ease); }
+@keyframes pop { from { scale: 0.97; opacity: 0; } }
+.member--activo { border-color: var(--ok); }
+.member--porvencer { border-color: #f59e0b; }
+.member--vencido { border-color: var(--bad); background: #fffafa; }
+.member-main { display: grid; justify-items: start; gap: 3px; }
+.member-main strong { font-size: 1.2rem; }
+.member-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
+.member-actions .btn { flex: 1 1 180px; min-height: 48px; }
+@media (min-width: 700px) { .member { grid-template-columns: auto 1fr auto; } .member-actions { grid-column: auto; } }
+.avatar { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--brand-soft); color: var(--brand-dark); font-weight: 800; font-size: 1.1rem; }
+.avatar--sm { width: 38px; height: 38px; font-size: 0.82rem; }
+.today { margin-top: 22px; }
+.today-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.today-head h2 { font-size: 1.05rem; }
+.hoy-row { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: center; padding: 10px 12px; }
+.hoy-row .badge { grid-column: 2; justify-self: start; }
+@media (min-width: 600px) { .hoy-row { grid-template-columns: auto 1fr auto; } .hoy-row .badge { grid-column: auto; } }
+
+/* ---------- Socios ---------- */
+.row-socio { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: center; padding: 12px; }
+.rs-main strong { display: block; }
+.rs-main small { font-size: 0.8rem; }
+.row-socio > .badge { grid-column: 2; justify-self: start; }
+.rs-actions { grid-column: 1 / -1; display: flex; gap: 6px; justify-content: flex-end; }
+@media (min-width: 760px) {
+  .row-socio { grid-template-columns: auto 1fr auto auto; }
+  .row-socio > .badge, .rs-actions { grid-column: auto; }
+}
+
+/* ---------- Planes ---------- */
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.plans label { position: relative; cursor: pointer; }
+.plans input { position: absolute; opacity: 0; }
+.plans span { display: grid; gap: 1px; padding: 12px 10px; border: 1.5px solid var(--line); border-radius: 12px; text-align: center; transition: border-color 0.15s ease, background 0.15s ease; }
+.plans small { color: var(--muted); font-size: 0.75rem; }
+.plans em { margin-top: 4px; font-style: normal; font-weight: 800; font-size: 1.05rem; }
+.plans input:checked + span { border-color: var(--brand); background: var(--brand-soft); }
+.plans input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+.new-date { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: var(--bg); }
+
+/* ---------- Caja ---------- */
+.pay-row { display: grid; grid-template-columns: 70px 1fr auto; gap: 10px; align-items: center; padding: 11px 14px; }
+.pay-date::first-letter { text-transform: uppercase; }

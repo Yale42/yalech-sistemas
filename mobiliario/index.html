@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Rentas y disponibilidad · Fiestas Lupita</title>
+  <meta name="description" content="Ejemplo funcional de un sistema para renta de mobiliario: disponibilidad por fecha, reservas con anticipo, entregas y recolecciones." />
+  <meta name="theme-color" content="#f4f5f7" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Renta de mobiliario · Sistema de ejemplo" />
+  <meta property="og:description" content="Cuántas sillas y mesas te quedan cada día, reservas con anticipo y confirmación por WhatsApp." />
+  <meta property="og:image" content="assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../base.css?v=1" />
+  <link rel="stylesheet" href="styles.css?v=1" />
+</head>
+<body>
+  <!-- Sistema de ejemplo (negocio ficticio). Funciona en el navegador con datos de prueba;
+       reservas y existencias se guardan solo en el navegador de quien lo usa (ver ../comun.js).
+       Cada reserva ocupa sus artículos el día del evento: así se calcula cuánto queda libre. -->
+  <div class="demo-bar">
+    <span><strong>Ejemplo funcional</strong> · Pruébalo: lo que hagas se guarda solo en este navegador</span>
+    <button type="button" data-reiniciar>Reiniciar demo</button>
+    <a href="../">Sistema de yalech →</a>
+  </div>
+
+  <div class="app">
+    <nav class="nav" aria-label="Secciones">
+      <div class="nav-brand"><span class="logo"><i class="fa-solid fa-chair"></i></span><div><strong>Fiestas Lupita</strong><small>Renta de mobiliario</small></div></div>
+      <button type="button" data-ir="disponible"><i class="fa-regular fa-calendar-check"></i><span>Disponible</span></button>
+      <button type="button" data-ir="reservas"><i class="fa-solid fa-clipboard-list"></i><span>Reservas</span></button>
+      <button type="button" data-ir="ruta"><i class="fa-solid fa-truck"></i><span>Ruta</span></button>
+      <button type="button" class="nav-new" data-nueva><i class="fa-solid fa-plus"></i><span>Reservar</span></button>
+    </nav>
+
+    <div>
+      <header class="top">
+        <span class="logo"><i class="fa-solid fa-chair"></i></span>
+        <div class="top-title"><strong>Fiestas Lupita</strong><span data-hoy></span></div>
+      </header>
+
+      <main class="main">
+        <!-- ========== Disponible ========== -->
+        <section data-vista="disponible">
+          <div class="head">
+            <div><h1>¿Qué tengo libre?</h1><p>Elige el día y mira cuánto te queda de cada cosa.</p></div>
+            <button type="button" class="btn btn--brand only-desk" data-nueva><i class="fa-solid fa-plus"></i> Reservar</button>
+          </div>
+          <div class="strip" data-dias></div>
+          <div class="avail card" data-disponible></div>
+        </section>
+
+        <!-- ========== Reservas ========== -->
+        <section data-vista="reservas" hidden>
+          <div class="head"><div><h1>Reservas</h1><p>Anticipos, saldos y en qué va cada una.</p></div></div>
+          <div class="stats">
+            <div class="stat stat--brand"><small>Eventos esta semana</small><strong data-st="semana">0</strong></div>
+            <div class="stat"><small>Por entregar</small><strong data-st="entregar">0</strong></div>
+            <div class="stat"><small>Por recoger</small><strong data-st="recoger">0</strong></div>
+            <div class="stat"><small>Saldo por cobrar</small><strong data-st="saldo">$0</strong></div>
+          </div>
+          <div class="toolbar"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Cliente, colonia o folio" aria-label="Buscar reserva" data-buscar /></label></div>
+          <ul class="list" data-reservas></ul>
+        </section>
+
+        <!-- ========== Ruta ========== -->
+        <section data-vista="ruta" hidden>
+          <div class="head"><div><h1>Ruta de hoy y mañana</h1><p>Qué cargar en la camioneta y a dónde ir.</p></div></div>
+          <div class="route" data-ruta></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ========== Nueva reserva ========== -->
+  <dialog class="modal modal--wide" id="nueva" aria-labelledby="nueva-t">
+    <form data-form-nueva novalidate tabindex="-1" autofocus>
+      <div class="modal-head"><h2 id="nueva-t">Nueva reserva</h2><button type="button" class="icon-btn" data-cerrar aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="row2">
+        <label class="field"><span>Cliente</span><input name="cliente" maxlength="50" autocomplete="off" /></label>
+        <label class="field"><span>WhatsApp</span><input name="tel" inputmode="tel" maxlength="15" placeholder="10 dígitos" /></label>
+      </div>
+      <div class="row2">
+        <label class="field"><span>Día del evento</span><input name="fecha" type="date" /></label>
+        <label class="field"><span>Colonia</span><input name="colonia" maxlength="40" placeholder="Ej. Las Águilas" /></label>
+      </div>
+      <label class="field"><span>Dirección</span><input name="direccion" maxlength="100" placeholder="Calle, número y referencias" /></label>
+      <fieldset class="field"><legend>¿Qué se lleva?</legend><ul class="pick" data-articulos></ul></fieldset>
+      <div class="row2">
+        <label class="field"><span>Flete</span><input name="flete" type="number" min="0" step="50" inputmode="decimal" value="250" /></label>
+        <label class="field"><span>Anticipo</span><input name="anticipo" type="number" min="0" step="50" inputmode="decimal" /></label>
+      </div>
+      <p class="quote">Total: <strong class="num" data-total>$0</strong></p>
+      <p class="form-error" hidden></p>
+      <div class="modal-actions"><button type="submit" class="btn btn--brand"><i class="fa-solid fa-check"></i> Apartar</button></div>
+    </form>
+  </dialog>
+
+  <script src="../comun.js?v=2"></script>
+  <script src="app.js?v=1"></script>
+</body>
+</html>
