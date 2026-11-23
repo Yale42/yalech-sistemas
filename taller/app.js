@@ -168,7 +168,7 @@ $('[data-form-concepto]').addEventListener('submit', e => {
   const problema = !desc ? 'Escribe el concepto.' : !(precio >= 0) || f.precio.value === '' ? 'Escribe el precio.' : !(cant >= 1 && cant <= 99) ? 'La cantidad va de 1 a 99.' : '';
   err.textContent = problema;
   err.hidden = !problema;
-  if (problema) return;
+  if (problema) return f.querySelector(`[name="${problema.includes('concepto') ? 'desc' : problema.includes('precio') ? 'precio' : 'cant'}"]`)?.focus();
   abierta.conceptos.push({ tipo: f.tipo.value === 'mo' ? 'mo' : 'ref', desc, cant: Math.floor(cant), precio: num(precio, 0, 1e6) });
   f.desc.value = ''; f.precio.value = ''; f.cant.value = 1;
   cambio();
@@ -232,7 +232,7 @@ fn.addEventListener('submit', e => {
     : fn.tel.value.trim() && tel.length !== 10 ? 'El WhatsApp debe tener 10 dígitos.'
     : !auto ? 'Escribe qué auto es.'
     : !esFecha(fn.entrega.value) ? 'Elige el día de entrega.' : '';
-  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  if (problema) { err.textContent = problema; err.hidden = false; return fn.querySelector(`[name="${([['nombre', 'cliente'], ['WhatsApp', 'tel'], ['auto', 'auto']].find(([t]) => problema.includes(t)) || [, 'entrega'])[1]}"]`)?.focus(); }
   const o = {
     id: uid(), folio: db.siguiente++, cliente, tel, auto, placas: texto(fn.placas.value, 10).toUpperCase(), km: Math.floor(num(fn.km.value, 0, 2e6)),
     falla: texto(fn.falla.value, 200), recibido: isoDia(), entrega: fn.entrega.value, estado: 'recibido', iva: false, conceptos: [], pagos: [],

@@ -177,7 +177,7 @@ fcita.addEventListener('submit', e => {
     : !esFecha(f) || f < isoDia() ? 'Elige un día de hoy en adelante.'
     : !esHora(h) ? 'Ese día ya no hay horarios libres para este servicio.'
     : choca(f, aMin(h), s.min) ? 'Ese horario se cruza con otra cita.' : '';
-  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  if (problema) { err.textContent = problema; err.hidden = false; return fcita.querySelector(`[name="${([['Elige el cliente', 'cliente'], ['nombre del cliente nuevo', 'nombre'], ['WhatsApp', 'tel'], ['Elige el servicio', 'servicio'], ['Elige un día', 'fecha']].find(([t]) => problema.includes(t)) || [, 'hora'])[1]}"]`)?.focus(); }
   let cid = fcita.cliente.value;
   if (nuevo) {
     cid = uid();
@@ -247,8 +247,8 @@ fcli.addEventListener('submit', e => {
   const nombre = texto(fcli.nombre.value, 50);
   const tel = tel10(fcli.tel.value);
   const err = $('.form-error', fcli);
-  if (!nombre) { err.textContent = 'Escribe el nombre.'; err.hidden = false; return; }
-  if (fcli.tel.value.trim() && tel.length !== 10) { err.textContent = 'El WhatsApp debe tener 10 dígitos.'; err.hidden = false; return; }
+  if (!nombre) { err.textContent = 'Escribe el nombre.'; err.hidden = false; return fcli.nombre.focus(); }
+  if (fcli.tel.value.trim() && tel.length !== 10) { err.textContent = 'El WhatsApp debe tener 10 dígitos.'; err.hidden = false; return fcli.tel.focus(); }
   db.clientes.push({ id: uid(), nombre, tel, notas: texto(fcli.notas.value, 300) });
   guardar();
   $('#cliente').close();

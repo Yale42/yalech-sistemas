@@ -210,7 +210,7 @@ fn.addEventListener('submit', e => {
     : !Object.keys(items).length ? 'Pon cuántas piezas de algo se lleva.'
     : sinLugar ? `Ese día solo quedan ${libre(f, sinLugar.id)} de «${sinLugar.nombre}».`
     : anticipo < 0 || anticipo > t ? 'El anticipo no puede ser mayor al total.' : '';
-  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  if (problema) { err.textContent = problema; err.hidden = false; return fn.querySelector(`[name="${([['quedan', 'q-' + sinLugar?.id], ['nombre', 'cliente'], ['WhatsApp', 'tel'], ['día', 'fecha'], ['dirección', 'direccion'], ['anticipo', 'anticipo']].find(([t]) => problema.includes(t)) || [, 'q-' + ARTICULOS[0].id])[1]}"]`)?.focus(); }
   const r = {
     id: uid(), folio: db.siguiente++, cliente, tel, fecha: f, colonia: texto(fn.colonia.value, 40), direccion: texto(fn.direccion.value, 100),
     items, flete: num(fn.flete.value, 0, 1e5), pagos: anticipo > 0 ? [{ monto: num(anticipo, 0, 1e7), t: Date.now() }] : [], estado: 'apartado',

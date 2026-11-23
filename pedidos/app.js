@@ -174,7 +174,7 @@ fn.addEventListener('submit', e => {
     : !esFecha(fn.fecha.value) ? 'Elige el día de entrega.'
     : !(total > 0) ? 'Escribe el total del pedido.'
     : anticipo < 0 || anticipo > total ? 'El anticipo no puede ser mayor al total.' : '';
-  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  if (problema) { err.textContent = problema; err.hidden = false; return fn.querySelector(`[name="${([['nombre', 'cliente'], ['WhatsApp', 'tel'], ['qué pidió', 'producto'], ['día', 'fecha'], ['anticipo', 'anticipo']].find(([t]) => problema.includes(t)) || [, 'total'])[1]}"]`)?.focus(); }
   const o = {
     id: uid(), folio: db.siguiente++, cliente, tel, producto, detalle: texto(fn.detalle.value, 200),
     fecha: fn.fecha.value, hora: esHora(fn.hora.value) ? fn.hora.value : '12:00', total: num(total, 0, 1e7),

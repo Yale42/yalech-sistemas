@@ -196,7 +196,7 @@ fn.addEventListener('submit', e => {
   const err = $('.form-error', fn);
   const nombre = texto(fn.nombre.value, 50), tel = tel10(fn.tel.value);
   const problema = !nombre ? 'Escribe el nombre del socio.' : fn.tel.value.trim() && tel.length !== 10 ? 'El WhatsApp debe tener 10 dígitos.' : '';
-  if (problema) { err.textContent = problema; err.hidden = false; return; }
+  if (problema) { err.textContent = problema; err.hidden = false; return fn.querySelector(`[name="${([['WhatsApp', 'tel']].find(([t]) => problema.includes(t)) || [, 'nombre'])[1]}"]`)?.focus(); }
   const plan = PLANES[fn.plan.value] ? fn.plan.value : 'mensual';
   const s = { id: uid(), num: db.siguiente++, nombre, tel, plan, vence: sumarDias(PLANES[plan].dias), asistencias: [isoDia()] };
   db.socios.push(s);
