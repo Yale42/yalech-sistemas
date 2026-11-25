@@ -57,8 +57,8 @@
     <div class="grid">
       <article class="item item--system">
         <a class="device" href="inventario/" target="_blank" rel="noopener" aria-label="Probar el sistema de inventario y ventas en vivo">
-          <span class="laptop"><span class="laptop-screen"><img src="assets/plantillas/sistema-inventario.jpg" alt="Sistema de inventario y ventas en computadora" loading="lazy" width="960" height="600" /></span></span>
-          <span class="device-phone"><img src="assets/plantillas/sistema-inventario-movil.jpg" alt="El mismo sistema en celular" loading="lazy" width="300" height="649" /></span>
+          <span class="laptop"><span class="laptop-screen"><img src="assets/plantillas/sistema-inventario.jpg" alt="Sistema de inventario y ventas en computadora" fetchpriority="high" width="960" height="600" /></span></span>
+          <span class="device-phone"><img src="assets/plantillas/sistema-inventario-movil.jpg" alt="El mismo sistema en celular" decoding="async" width="300" height="649" /></span>
         </a>
         <div class="item-info">
           <h3 class="item-name">Inventario y ventas</h3>
@@ -228,7 +228,10 @@
       tall.onload = () => { img.removeAttribute('height'); img.src = tall.src; e.target.classList.add('is-tall'); medir(e.target); };
       tall.src = img.dataset.tall;
     }), { rootMargin: '300px' });
-    if (!motion.calm) phones.forEach(p => cargar.observe(p));
+    // Las capturas largas esperan a que la página termine de cargar, para no competir con lo primero que se ve
+    const empezar = () => { if (!motion.calm) phones.forEach(p => cargar.observe(p)); };
+    if (document.readyState === 'complete') setTimeout(empezar, 300);
+    else addEventListener('load', () => setTimeout(empezar, 300), { once: true });
     addEventListener('resize', () => document.querySelectorAll('.phone.is-tall').forEach(medir));
 
     // En pantallas táctiles no hay "pasar el mouse": se recorre sola mientras está a la vista
